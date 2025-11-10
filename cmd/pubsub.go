@@ -57,11 +57,11 @@ var pubsubCmd = &cobra.Command{
 		err = sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
 			fmt.Println(string(m.Data[:]))
 			m.Ack() // Acknowledge that we've consumed the message.
+			//TODO: do your thing here with the data
 		})
 		if err != nil {
 			log.Println(err)
 		}
-		fmt.Println("Blah!")
 	},
 	TraverseChildren: false,
 }

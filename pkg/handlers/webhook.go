@@ -19,7 +19,6 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	requestBody, err := io.ReadAll(r.Body)
-	fmt.Println(string(requestBody))
 	if err != nil {
 		http.Error(w, "Invalid Request Body", http.StatusBadRequest)
 		return
@@ -28,4 +27,6 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid Request Body", http.StatusBadRequest)
 		return
 	}
+	//TODO: You can do your thing here
+	fmt.Println(string(requestBody))
 }
