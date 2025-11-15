@@ -2,7 +2,7 @@ package consumers
 
 import (
 	"context"
-	"fmt"
+
 	"github.com/cockroachdb/errors"
 
 	"cloud.google.com/go/compute/metadata"
@@ -48,15 +48,15 @@ func RunPubSubConsumer(ctx context.Context) {
 	}(client)
 	// Use a callback to receive messages via the given subscription.
 	sub := client.Subscription(subscriptionName)
-	fmt.Printf("Attached to subscription: %v\n", sub)
+	log.Infof("Attached to subscription: %v", sub)
 	err = sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
-		fmt.Println(string(m.Data[:]))
+		log.Infof(string(m.Data[:]))
 		m.Ack() // Acknowledge that we've consumed the message.
 		//TODO: do your thing here with the data
 	})
 	if err != nil && !errors.Is(err, context.Canceled) {
-		log.Println(err)
+		log.Error(err)
 	}
 
-	log.Println("Stopped PubSub consumer")
+	log.Info("Shut down PubSub consumer")
 }

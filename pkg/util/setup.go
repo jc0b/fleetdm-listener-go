@@ -10,7 +10,10 @@ func PreRunSetup(cmd *cobra.Command, args []string) {
 	if viper.GetBool("json-logging") {
 		log.SetFormatter(&log.JSONFormatter{})
 	} else {
-		log.SetFormatter(&log.TextFormatter{})
+		log.SetFormatter(&log.TextFormatter{
+			DisableLevelTruncation: true,
+			FullTimestamp:          true,
+		})
 	}
 	if viper.GetBool("trace") {
 		log.SetLevel(log.TraceLevel)

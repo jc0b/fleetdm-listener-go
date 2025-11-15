@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 
@@ -30,5 +29,5 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//TODO: You can do your thing here
-	fmt.Println(string(requestBody))
+	log.Infof(string(requestBody))
 }
