@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/jc0b/fleetdm-listener-go/pkg/handlers"
 	"github.com/spf13/viper"
 )
@@ -13,12 +14,12 @@ type ServerConfig struct {
 }
 
 func NewServer() (*http.Server, error) {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", handlers.WebhookHandler)
+	router := mux.NewRouter()
+	router.HandleFunc("/", handlers.WebhookHandler).Methods("POST")
 
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", viper.GetInt("port")),
-		Handler:      mux,
+		Handler:      router,
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,

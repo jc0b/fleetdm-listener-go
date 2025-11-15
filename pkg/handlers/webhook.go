@@ -9,12 +9,14 @@ import (
 )
 
 func WebhookHandler(w http.ResponseWriter, r *http.Request) {
-	log.Infof("[webhook] - %s - %s - %s", r.RemoteAddr, r.RequestURI, r.Header.Get("User-Agent"))
+	log.Infof("[webhook] - %s - %s - %s - %s", r.Method, r.RemoteAddr, r.RequestURI, r.Header.Get("User-Agent"))
 	if r.Method != "POST" {
+		log.Info("Rejected invalid request method")
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
 
 	if r.Header.Get("Content-Type") != "application/json" && r.Header.Get("content-type") != "application/json" {
+		log.Info("Rejected invalid content-type")
 		http.Error(w, "Invalid request content-type", http.StatusBadRequest)
 		return
 	}
